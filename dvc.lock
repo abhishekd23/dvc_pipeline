@@ -4,31 +4,40 @@ stages:
     cmd: python3 src/prepare.py
     deps:
     - path: src/prepare.py
-      md5: faf9a03756fdd065520e03015b93f468
-      size: 631
+      md5: f49b64ccf386469689e3ff031b531b3a
+      size: 657
     params:
       params.yaml:
-        prepare.count: 2
+        prepare.count: 1
     outs:
     - path: data/prepared
-      md5: 6a02d7476399155af7c0a283d8e62e5f.dir
-      size: 287167
-      nfiles: 3
+      md5: f6eb12166cd084b26e83dd52d2b827ef.dir
+      size: 533971
+      nfiles: 10
   predict:
-    cmd: python3 src/predict.py data/prepared data/store data/predictions
+    cmd: python3 src/predict.py data/prepared data/predictions data/store
     deps:
     - path: data/prepared
-      md5: 6a02d7476399155af7c0a283d8e62e5f.dir
-      size: 287167
-      nfiles: 3
+      md5: f6eb12166cd084b26e83dd52d2b827ef.dir
+      size: 533971
+      nfiles: 10
     - path: src/prepare.py
-      md5: faf9a03756fdd065520e03015b93f468
-      size: 631
+      md5: f49b64ccf386469689e3ff031b531b3a
+      size: 657
     params:
       params.yaml:
-        prepare.count: 2
+        prepare.count: 1
     outs:
     - path: data/predictions
-      md5: e24dec27cae16e610f81f9784eaf7d3f.dir
-      size: 131858
-      nfiles: 3
+      md5: 7f8e28e2a3d7b1ac83e89007ec7ef15d.dir
+      size: 236259
+      nfiles: 5
+  transform:
+    cmd: python3 src/transform.py
+    deps:
+    - path: src/transform.py
+      md5: d2f5b91344878e4fa9c2ef8190e15cfd
+      size: 1549
+    params:
+      params.yaml:
+        prepare.count: 1

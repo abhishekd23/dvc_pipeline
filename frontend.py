@@ -17,10 +17,11 @@ def main():
         yaml.dump(update_count,open('params.yaml','w'))
 
 
-        for ff in os.listdir('buffer'):
-            os.remove(f'buffer/{ff}')
+        os.makedirs('storage',exist_ok=True)
+        for ff in os.listdir('storage'):
+            os.remove(f'storage/{ff}')
     
-        with open(f'buffer/dataset{params["count"]+1}.zip', "wb") as f:
+        with open(f'storage/dataset{params["count"]+1}.zip', "wb") as f:
             f.write(imgs.getbuffer())
 
         

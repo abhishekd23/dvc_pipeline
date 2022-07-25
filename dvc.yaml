@@ -16,3 +16,9 @@ stages:
     - prepare.count
     outs:
     - data/predictions
+  transform:
+    cmd: python3 src/transform.py
+    deps:
+    - src/transform.py
+    params:
+    - prepare.count
