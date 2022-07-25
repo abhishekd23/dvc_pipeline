@@ -1,0 +1,18 @@
+stages:
+  prepare:
+    cmd: python3 src/prepare.py
+    deps:
+    - src/prepare.py
+    params:
+    - prepare.count
+    outs:
+    - data/prepared
+  predict:
+    cmd: python3 src/predict.py data/prepared data/predictions data/store
+    deps:
+    - data/prepared
+    - src/prepare.py
+    params:
+    - prepare.count
+    outs:
+    - data/predictions
