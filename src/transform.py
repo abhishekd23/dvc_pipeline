@@ -13,6 +13,9 @@ images = os.path.join('data','prepared',f"v{params['count']}",'images')
 
 annots = os.path.join('data','prepared',f"v{params['count']}",'annotations')
 
+transformed_data_path = os.path.join('data','transform','v{}'.format(params['count']))
+os.makedirs(transformed_data_path,exist_ok=True)
+
 def generate_data( Annotpath, Imagepath):
 		information={'xmin':[],'ymin':[],'xmax':[],'ymax':[],'ymax':[],'name':[] ,'label':[], 'image':[]}
 		for file in sorted(glob.glob(str(Annotpath+'/*.xml*'))):
@@ -45,6 +48,8 @@ def generate_data( Annotpath, Imagepath):
 
 
 
+
 df = generate_data(annots,images)
+df.to_pickle(os.path.join(transformed_data_path,'v{}.pkl'.format(params['count'])))
 print(df)
 

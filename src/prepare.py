@@ -21,5 +21,7 @@ with zipfile.ZipFile(f'storage/dataset{params["count"]}.zip',"r") as zipf:
     print(list_of_names)
     print(params['count'])
     zipf.extractall(data)
+
+    
     zipf.extractall(origimg_path)
     
