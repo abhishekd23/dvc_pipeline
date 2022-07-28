@@ -1,6 +1,7 @@
 stages:
   prepare:
-    cmd: python3 src/ingest.py
+    cmd: /home/appuser/venv/bin/python src/ingest.py
+    #cmd: python3 src/ingest.py
     deps:
     - src/ingest.py
     params:
@@ -8,7 +9,8 @@ stages:
     outs:
     - data/prepared
   transform:
-    cmd: python3 src/transform.py
+    cmd: /home/appuser/venv/bin/python src/transform.py
+    #cmd: python3 src/transform.py
     deps:
     - src/transform.py
     - data/prepared
@@ -17,7 +19,8 @@ stages:
     outs:
     - data/transformed
   predict:
-    cmd: python3 src/predict.py data/prepared data/predictions data/store
+    cmd: /home/appuser/venv/bin/python src/predict.py data/prepared data/predictions data/store
+    #cmd: python3 src/predict.py data/prepared data/predictions data/store
     deps:
     - data/prepared
     - src/ingest.py
@@ -26,8 +29,9 @@ stages:
     outs:
     - data/predictions
   evaluate:
-    cmd: python3 .\src\evaluate.py .\data\prepared\ .\data\transformed\ .\data\predictions\
-      .\data\evaluated .\data\store
+    cmd: /home/appuser/venv/bin/python src/evaluate.py data/prepared data/transformed data/predictions data/evaluated data/store
+    #cmd: python3 .\src\evaluate.py .\data\prepared\ .\data\transformed\ .\data\predictions\
+      #.\data\evaluated .\data\store
     deps:
     - data/predictions
     - data/prepared
