@@ -28,7 +28,7 @@ def generate_data( Annotpath, Imagepath):
 							file_name = file.split('/')[-1][0:-4]
 							f = os.path.basename(file_name)
 							information['label'] += [name]
-							information['name'] +=[f+'jpg']
+							information['name'] +=[f+'.jpg']
 							#information['name'] +=[file]
 							information['image'] += [os.path.join(images,f+'.jpg')]
 						if 'bndbox'==attribute.tag:

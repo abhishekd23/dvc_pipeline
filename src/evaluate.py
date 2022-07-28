@@ -31,8 +31,8 @@ with open(os.path.join(gt_annots,'v{}.pkl'.format(params['count'])),'rb') as f:
 with open(os.path.join(sys.argv[3],'v{}'.format(params['count']),'v{}.pkl'.format(params['count'])),'rb') as f:
     predicted_data = pickle.load(f)
 
-print(transformed_data)
-print(predicted_data)
+#print(transformed_data)
+#print(predicted_data)
 
 def get_iou(bb1, bb2):
 	"""
@@ -96,8 +96,9 @@ for image_name in tqdm(image_names_list, file=sys.__stdout__):
     iou_list = []
     print("Abhishek")
     labels = transformed_data[transformed_data["name"]==image_name]
+    #print(labels)
     detections = predicted_data[predicted_data["name"]==image_name]
-    print(detections)
+    #print(detections)
     for index1, lab in labels.iterrows():
         largest_iou = 0.0
         for index2, yolo_bb in detections.iterrows():
@@ -138,6 +139,7 @@ for image_name in tqdm(image_names_list, file=sys.__stdout__):
                 0.5, 
 				(255, 0, 0), 
 				1, cv2.LINE_AA)
+    cv2.imshow("Hey",img)
     save_path = os.path.join(output,'v{}'.format(params['count']), image_name + ".jpg")
 
 print("Evaluating......")
