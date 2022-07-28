@@ -14,6 +14,8 @@ stages:
     - data/prepared
     params:
     - prepare.count
+    outs:
+    - data/transformed
   predict:
     cmd: python3 src/predict.py data/prepared data/predictions data/store
     deps:
@@ -23,3 +25,14 @@ stages:
     - prepare.count
     outs:
     - data/predictions
+  evaluate:
+    cmd: python3 .\src\evaluate.py .\data\prepared\ .\data\transformed\ .\data\predictions\
+      .\data\evaluated .\data\store
+    deps:
+    - data/predictions
+    - data/prepared
+    - data/transformed
+    params:
+    - prepare.count
+    outs:
+    - data/evaluated

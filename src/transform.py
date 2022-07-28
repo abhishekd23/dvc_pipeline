@@ -49,6 +49,6 @@ def generate_data( Annotpath, Imagepath):
 
 
 df = generate_data(annots,images)
-df.to_pickle(os.path.join(transformed_data_path,'v{}'.format(params['count'])))
+df.to_pickle(os.path.join(transformed_data_path,'v{}.pkl'.format(params['count'])))
 print(df)
 
