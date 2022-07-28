@@ -35,51 +35,32 @@ img = os.path.join(data_path, os.listdir(data_path)[0])
 preds = glob.glob(f'{data_path}/*.jpg', recursive=True)
 labels = os.listdir(data_path)
 
+
+
 information={'xmin':[],'ymin':[],'xmax':[],'ymax':[],'name':[] ,'label':[], 'image':[]}
-for images in os.listdir(data_path):
-    img = cv2.imread(os.path.join(data_path,images))
-    pred = model(img)
-    #pred.save()
-    pred.render()
-    # im = pred.imgs
-    # image = Image.fromarray(im)
-    df = pred.pandas().xyxyn[0]
-    res = df[df["name"]=="person"]
-    
-    for index, yolo_bb in res.iterrows():
-        #file_name = images.split('/')[-1][0:-4]
-        information['name']+= [images]
-        information['label']+= [yolo_bb['name']]
-        information['xmin']+= [yolo_bb["xmin"]*img.shape[1]]
-        information['xmax']+= [yolo_bb["xmax"]*img.shape[1]]
-        information['ymin']+= [yolo_bb["ymin"]*img.shape[0]]
-        information['ymax']+= [yolo_bb["ymax"]*img.shape[0]]
-        information['image']+= [f'{data_path}/{images}']
+def predict(information,data_path):
+    for images in os.listdir(data_path):
+        img = cv2.imread(os.path.join(data_path,images))
+        pred = model(img)
+        pred.render()
+        df = pred.pandas().xyxyn[0]
+        res = df[df["name"]=="person"]
+        
+        for index, yolo_bb in res.iterrows():
+            #file_name = images.split('/')[-1][0:-4]
+            information['name']+= [images]
+            information['label']+= [yolo_bb['name']]
+            information['xmin']+= [yolo_bb["xmin"]*img.shape[1]]
+            information['xmax']+= [yolo_bb["xmax"]*img.shape[1]]
+            information['ymin']+= [yolo_bb["ymin"]*img.shape[0]]
+            information['ymax']+= [yolo_bb["ymax"]*img.shape[0]]
+            information['image']+= [f'{data_path}/{images}']
+    return pd.DataFrame(information)
 
-# results = model(preds)
-# results.render()
-# df = results.pandas().xyxy[0]
-# df1 = pd.DataFrame(df)
-#df1 = df.drop(['confidence','class'], axis=1)
-#print(df1)
-#list_label = []
-#list_images = []
 
-# for index in range(0,len(df1)):
-#     information['name']+= [labels[index]]
-#     information['label']+= [df1['name'][index]]
-#     information['xmin']+= [df1['xmin'][index]]
-#     information['xmax']+= [df1['xmax'][index]]
-#     information['ymin']+= [df1['ymin'][index]]
-#     information['ymax']+= [df1['ymax'][index]]
-#     information['image']+= [f'{origpred}/{labels[index]}']
-
-# for index,im in enumerate(results.imgs):
-#     img = Image.fromarray(im)
-#     #img.save(f'{predict_path}/{labels[index]}')
-    
-#     img.save(f'{origpred}/{labels[index]}')
-
-annots_data = pd.DataFrame(information)
+print("-------------------------------")
+print("Prediction using model.....")
+print("-------------------------------")
+annots_data = predict(information,data_path)
 annots_data.to_pickle(os.path.join(pred_path,'v{}.pkl'.format(params['count'])))
 print(annots_data)

@@ -4,50 +4,50 @@ stages:
     cmd: python3 src/ingest.py
     deps:
     - path: src/ingest.py
-      md5: 8d5c9782239b9c0b28fafcc995d70c88
-      size: 556
+      md5: 03b8c0480770d7ce780a39f7a4b52788
+      size: 668
     params:
       params.yaml:
-        prepare.count: 1
+        prepare.count: 4
     outs:
     - path: data/prepared
-      md5: f6eb12166cd084b26e83dd52d2b827ef.dir
+      md5: 62a58752c874e2d1c1f519bb5cc67355.dir
       size: 533971
       nfiles: 10
   predict:
     cmd: python3 src/predict.py data/prepared data/predictions data/store
     deps:
     - path: data/prepared
-      md5: f6eb12166cd084b26e83dd52d2b827ef.dir
+      md5: 62a58752c874e2d1c1f519bb5cc67355.dir
       size: 533971
       nfiles: 10
     - path: src/ingest.py
-      md5: 8d5c9782239b9c0b28fafcc995d70c88
-      size: 556
+      md5: 03b8c0480770d7ce780a39f7a4b52788
+      size: 668
     params:
       params.yaml:
-        prepare.count: 1
+        prepare.count: 4
     outs:
     - path: data/predictions
-      md5: e579d7c440ae7745a49c54a6caa1a322.dir
+      md5: 3333d3073d2a32877b809fb134807f0e.dir
       size: 1531
       nfiles: 1
   transform:
     cmd: python3 src/transform.py
     deps:
     - path: data/prepared
-      md5: f6eb12166cd084b26e83dd52d2b827ef.dir
+      md5: 62a58752c874e2d1c1f519bb5cc67355.dir
       size: 533971
       nfiles: 10
     - path: src/transform.py
-      md5: 340d991238e996e429382edc5c52c143
-      size: 1796
+      md5: aead0f1017f8d4394056eb6b0ba715b8
+      size: 1878
     params:
       params.yaml:
-        prepare.count: 1
+        prepare.count: 4
     outs:
     - path: data/transformed
-      md5: dd4887de47d134de1949ef3480508623.dir
+      md5: 15ed2d6cd2b7c71d316ce0d726aa831b.dir
       size: 1816
       nfiles: 1
   evaluate:
@@ -55,22 +55,22 @@ stages:
       .\data\evaluated .\data\store
     deps:
     - path: data/predictions
-      md5: e579d7c440ae7745a49c54a6caa1a322.dir
+      md5: 3333d3073d2a32877b809fb134807f0e.dir
       size: 1531
       nfiles: 1
     - path: data/prepared
-      md5: f6eb12166cd084b26e83dd52d2b827ef.dir
+      md5: 62a58752c874e2d1c1f519bb5cc67355.dir
       size: 533971
       nfiles: 10
     - path: data/transformed
-      md5: dd4887de47d134de1949ef3480508623.dir
+      md5: 15ed2d6cd2b7c71d316ce0d726aa831b.dir
       size: 1816
       nfiles: 1
     params:
       params.yaml:
-        prepare.count: 1
+        prepare.count: 4
     outs:
     - path: data/evaluated
-      md5: 6147ec9d2c42e00b480d355763a27e17.dir
+      md5: 779b09aec28f284a1ec6e7eb50eaa19a.dir
       size: 560713
       nfiles: 5

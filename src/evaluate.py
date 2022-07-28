@@ -31,8 +31,9 @@ with open(os.path.join(gt_annots,'v{}.pkl'.format(params['count'])),'rb') as f:
 with open(os.path.join(sys.argv[3],'v{}'.format(params['count']),'v{}.pkl'.format(params['count'])),'rb') as f:
     predicted_data = pickle.load(f)
 
-#print(transformed_data)
-#print(predicted_data)
+print("-------------------------------")
+print("Evaluating.....")
+print("-------------------------------")
 
 def get_iou(bb1, bb2):
 	"""
@@ -91,59 +92,57 @@ yolo_metrics = {
 			'fp': 0, 	# 0<iou<thresh
 			'fn':0		# iou==0	
 }
-print("obj_det_data_visualizer: visualize")
+
 for image_name in tqdm(image_names_list, file=sys.__stdout__):
-    iou_list = []
-    print("Abhishek")
-    labels = transformed_data[transformed_data["name"]==image_name]
-    #print(labels)
-    detections = predicted_data[predicted_data["name"]==image_name]
-    #print(detections)
-    for index1, lab in labels.iterrows():
-        largest_iou = 0.0
-        for index2, yolo_bb in detections.iterrows():
-            iou = get_iou(lab, yolo_bb)
-            if iou > largest_iou:
-                largest_iou = iou
-            if largest_iou==0:
-                yolo_metrics['fn'] += 1
-            else:
-                if largest_iou>iou_thresh:
-                    yolo_metrics['tp'] += 1
-                else:
-                    yolo_metrics['fp'] += 1
-        iou_list.append(largest_iou)
-    image_path = labels["image"].iloc[0]
-    img = cv2.imread(image_path)
-    for index1, lab in labels.iterrows():
-        img = cv2.rectangle(img, (round(lab['xmin']), round(lab['ymin'])), (round(lab['xmax']), round(lab['ymax'])), (255,255,0),2)
-        cv2.imshow("Hey",img)
-    for index2, lab in detections.iterrows():
-        img = cv2.rectangle(img, (round(lab['xmin']), round(lab['ymin'])), (round(lab['xmax']), round(lab['ymax'])), (0,255,0),2)
-        cv2.imshow("Hey",img)
-			
-    min_iou = min(iou_list)
-    max_iou = max(iou_list)
-    avg_iou = sum(iou_list) / len(iou_list)
-    print(avg_iou)
-    img = cv2.putText(img, 'min_iou='+str(round(min_iou,4)), (25,25), 
+	iou_list = []
+	labels = transformed_data[transformed_data["name"]==image_name]
+	detections = predicted_data[predicted_data["name"]==image_name]  
+	for index1, lab in labels.iterrows():
+		largest_iou = 0.0
+		for index2, yolo_bb in detections.iterrows():
+			iou = get_iou(lab, yolo_bb)
+			if iou > largest_iou:
+				largest_iou = iou
+			if largest_iou==0:
+				yolo_metrics['fn'] += 1
+			else:
+				if largest_iou>iou_thresh:
+					yolo_metrics['tp'] += 1
+				else:
+					yolo_metrics['fp'] += 1
+		iou_list.append(largest_iou)
+	image_path = labels["image"].iloc[0]
+	img = cv2.imread(image_path)
+	for index1, lab in labels.iterrows():
+		img = cv2.rectangle(img, (round(lab['xmin']), round(lab['ymin'])), (round(lab['xmax']), round(lab['ymax'])), (255,255,0),2)
+	for index2, lab in detections.iterrows():
+		img = cv2.rectangle(img, (round(lab['xmin']), round(lab['ymin'])), (round(lab['xmax']), round(lab['ymax'])), (0,255,0),2)
+	
+	
+	min_iou = min(iou_list)
+	max_iou = max(iou_list)
+	avg_iou = sum(iou_list) / len(iou_list)
+	img = cv2.putText(img, 'min_iou='+str(round(min_iou,4)), (25,25), 
 				cv2.FONT_HERSHEY_SIMPLEX, 
                 0.5, 
 				(255, 0, 0), 
 				1, cv2.LINE_AA)
-    img = cv2.putText(img, 'max_iou='+str(round(max_iou,4)), (25,45), 
+	img = cv2.putText(img, 'max_iou='+str(round(max_iou,4)), (25,45), 
 				cv2.FONT_HERSHEY_SIMPLEX, 
                 0.5, 
 				(255, 0, 0), 
 				1, cv2.LINE_AA)
-    img = cv2.putText(img, 'avg_iou='+str(round(avg_iou,4)), (25,65), 
+	img = cv2.putText(img, 'avg_iou='+str(round(avg_iou,4)), (25,65), 
 				cv2.FONT_HERSHEY_SIMPLEX, 
                 0.5, 
 				(255, 0, 0), 
 				1, cv2.LINE_AA)
-    cv2.imshow("Hey",img)
-    save_path = os.path.join(output, image_name + ".jpg")
-    cv2.imwrite(save_path,img)
+
+	
+	save_path = os.path.join(output, image_name + ".jpg")
+	store_path = os.path.join(store, image_name + ".jpg")
+	cv2.imwrite(save_path,img)
+	cv2.imwrite(store_path,img)
 
 print("Evaluating......")
-print("DONE!!")
+print("DONE!!")	

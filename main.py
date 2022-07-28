@@ -23,11 +23,13 @@ def main():
         with open(f'buffer/dataset{params["count"]+1}.zip', "wb") as f:
             f.write(imgs.getbuffer())
 
-        
+        print("-------------------------------")
+        print("PIPELINE RUNNING")
+        print("-------------------------------")
 
         if not os.system("dvc repro"):
-            imgname = os.listdir("data/store/v{}/predictions".format(params["count"]+1))
-            preds = glob.glob("data/store/v{}/predictions/*.*".format(params["count"]+1), recursive=True)
+            imgname = os.listdir("data/store/v{}/evaluated".format(params["count"]+1))
+            preds = glob.glob("data/store/v{}/evaluated/*.*".format(params["count"]+1), recursive=True)
             for index,im in enumerate(preds):
                 st.image(im, imgname[index])
             print('done')
@@ -37,22 +39,7 @@ def main():
 
 
 
-    # imgname = os.listdir("dataset/v{}".format(st.session_state['dcount']))
-    # preds = glob.glob("dataset/v{}/*.*".format(st.session_state['dcount']), recursive=True)
-
-    # results = model(preds)
-    # results.imgs
-    # results.render()
-    # os.mkdir("output/v{}".format(st.session_state['dcount']))
-    # for index,im in enumerate(results.imgs):
-        
-    #     img = Image.fromarray(im)
-    #     img.save('output/v{}/{}'.format(st.session_state['dcount'], imgname[index]))
-
-    #     st.image('output/v{}/{}'.format(st.session_state['dcount'], imgname[index]))
-
-    # st.button('Predict')
-
+    
 if __name__ == '__main__':
     # model = torch.hub.load('ultralytics/yolov5', 'yolov5s', pretrained=True, _verbose=False)
     # model.classes = [0]

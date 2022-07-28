@@ -16,6 +16,9 @@ origimg_path = os.path.join('data', 'store', f"v{params['count']}")
 os.makedirs(data, exist_ok=True)
 os.makedirs(origimg_path, exist_ok=True)
 
+print("-------------------------------")
+print("Extracting data.....")
+print("-------------------------------")
 with zipfile.ZipFile(f'buffer/dataset{params["count"]}.zip',"r") as zipf:
     zipf.extractall(data)
     zipf.extractall(origimg_path)

@@ -29,7 +29,6 @@ def generate_data( Annotpath, Imagepath):
 							f = os.path.basename(file_name)
 							information['label'] += [name]
 							information['name'] +=[f+'.jpg']
-							#information['name'] +=[file]
 							information['image'] += [os.path.join(images,f+'.jpg')]
 						if 'bndbox'==attribute.tag:
 							for dim in list(attribute):
@@ -48,8 +47,9 @@ def generate_data( Annotpath, Imagepath):
 		return pd.DataFrame(information)
 
 
-
+print("-------------------------------")
+print("Converting XML files to dataframe.....")
+print("-------------------------------")
 df = generate_data(annots,images)
 df.to_pickle(os.path.join(transformed_data_path,'v{}.pkl'.format(params['count'])))
-print(df)
 
