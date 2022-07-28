@@ -26,10 +26,11 @@ def generate_data( Annotpath, Imagepath):
 						if 'name' in attribute.tag:
 							name = attribute.text
 							file_name = file.split('/')[-1][0:-4]
+							f = os.path.basename(file_name)
 							information['label'] += [name]
-							information['name'] +=[file_name]
+							information['name'] +=[f+'jpg']
 							#information['name'] +=[file]
-							information['image'] += [os.path.join(Imagepath, file_name + '.jpg')]
+							information['image'] += [os.path.join(images,f+'.jpg')]
 						if 'bndbox'==attribute.tag:
 							for dim in list(attribute):
 								if 'xmin'==dim.tag:
