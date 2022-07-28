@@ -1,10 +1,7 @@
-
 import os
-import torch
-from PIL import Image
-import glob
+import yaml
 import zipfile
-import yaml 
+import sys
 
 params = yaml.safe_load(open('params.yaml'))['prepare']
 
