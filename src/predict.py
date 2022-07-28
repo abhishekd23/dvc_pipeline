@@ -15,12 +15,13 @@ if len(sys.argv) != 4:
     )
     sys.exit(1)
 
-
 params = yaml.safe_load(open('params.yaml'))['prepare']
 
-data_path = os.path.join(sys.argv[1], "v{}".format(params['count']), 'images')
-predict_path = os.path.join(sys.argv[2], "v{}".format(params['count']), 'images')
-origpred = os.path.join(sys.argv[3], "v{}".format(params['count']), 'predictions')
+
+data_path = os.path.join(sys.argv[1], f"v{params['count']}", 'images')
+predict_path = os.path.join(sys.argv[2], f"v{params['count']}", 'images')
+origpred = os.path.join(sys.argv[3], f"v{params['count']}", 'predictions')
+
 pred_path = os.path.join(sys.argv[2], "v{}".format(params['count']))
 
 print(predict_path)
@@ -34,8 +35,6 @@ img = os.path.join(data_path, os.listdir(data_path)[0])
 
 preds = glob.glob(f'{data_path}/*.jpg', recursive=True)
 labels = os.listdir(data_path)
-
-
 
 information={'xmin':[],'ymin':[],'xmax':[],'ymax':[],'name':[] ,'label':[], 'image':[]}
 def predict(information,data_path):
@@ -62,5 +61,5 @@ print("-------------------------------")
 print("Prediction using model.....")
 print("-------------------------------")
 annots_data = predict(information,data_path)
-annots_data.to_pickle(os.path.join(pred_path,'v{}.pkl'.format(params['count'])))
+annots_data.to_pickle(os.path.join(pred_path,'v{}.pkl'.format(params['dcount'])))
 print(annots_data)
