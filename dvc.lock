@@ -71,6 +71,6 @@ stages:
         prepare.count: 1
     outs:
     - path: data/evaluated
-      md5: d751713988987e9331980363e24189ce.dir
-      size: 0
-      nfiles: 0
+      md5: 6147ec9d2c42e00b480d355763a27e17.dir
+      size: 560713
+      nfiles: 5

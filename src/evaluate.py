@@ -117,8 +117,10 @@ for image_name in tqdm(image_names_list, file=sys.__stdout__):
     img = cv2.imread(image_path)
     for index1, lab in labels.iterrows():
         img = cv2.rectangle(img, (round(lab['xmin']), round(lab['ymin'])), (round(lab['xmax']), round(lab['ymax'])), (255,255,0),2)
+        cv2.imshow("Hey",img)
     for index2, lab in detections.iterrows():
         img = cv2.rectangle(img, (round(lab['xmin']), round(lab['ymin'])), (round(lab['xmax']), round(lab['ymax'])), (0,255,0),2)
+        cv2.imshow("Hey",img)
 			
     min_iou = min(iou_list)
     max_iou = max(iou_list)
@@ -140,7 +142,8 @@ for image_name in tqdm(image_names_list, file=sys.__stdout__):
 				(255, 0, 0), 
 				1, cv2.LINE_AA)
     cv2.imshow("Hey",img)
-    save_path = os.path.join(output,'v{}'.format(params['count']), image_name + ".jpg")
+    save_path = os.path.join(output, image_name + ".jpg")
+    cv2.imwrite(save_path,img)
 
 print("Evaluating......")
 print("DONE!!")
