@@ -1,8 +1,8 @@
 stages:
   prepare:
-    cmd: python3 src/prepare.py
+    cmd: python3 src/ingest.py
     deps:
-    - src/prepare.py
+    - src/ingest.py
     params:
     - prepare.count
     outs:
@@ -18,7 +18,7 @@ stages:
     cmd: python3 src/predict.py data/prepared data/predictions data/store
     deps:
     - data/prepared
-    - src/prepare.py
+    - src/ingest.py
     params:
     - prepare.count
     outs:
