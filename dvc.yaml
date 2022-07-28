@@ -5,7 +5,7 @@ stages:
     deps:
     - src/ingest.py
     params:
-    - ingest.dcount
+    - prepare.count
     outs:
     - data/prepared
 
@@ -16,7 +16,7 @@ stages:
     - src/transform.py
     - data/prepared
     params:
-    - ingest.dcount
+    - prepare.count
     outs:
     - data/transformed
 
@@ -27,7 +27,7 @@ stages:
     - data/prepared
     - src/predict.py
     params:
-    - ingest.dcount
+    - prepare.count
     outs:
     - data/predictions
   
@@ -39,6 +39,6 @@ stages:
     - data/transformed
     - data/predictions
     params:
-    - ingest.dcount
+    - prepare.count
     outs:
     - data/evaluated
