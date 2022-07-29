@@ -5,6 +5,7 @@ from PIL import Image
 import glob
 import zipfile
 import yaml
+#import shutil 
 
 def main():
     st.title('Test Predict YoloV5')
@@ -15,6 +16,9 @@ def main():
         params = yaml.safe_load(open('params.yaml'))['prepare']
         update_count = {'prepare':{'count':params['count']+1}}
         yaml.dump(update_count,open('params.yaml','w'))
+
+        
+        #shutil.rmtree('.dvc/cache/')
 
         os.makedirs('buffer',exist_ok=True)
         for ff in os.listdir('buffer'):
